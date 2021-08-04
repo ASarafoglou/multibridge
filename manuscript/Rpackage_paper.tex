@@ -99,7 +99,7 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 % Make \paragraph and \subparagraph free-standing
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
@@ -195,9 +195,9 @@
 \date{}
 
 
-\authornote{
+\note{
 
-The authors made the following contributions. Alexandra Sarafoglou: Conceptualization, Data Curation, Formal Analysis, Funding Acquisition, Methodology, Project Administration, Software, Validation, Visualization, Writing - Original Draft Preparation, Writing - Review \& Editing; Frederik Aust: Conceptualization, Software, Supervision, Validation, Visualization, Writing - Original Draft Preparation, Writing - Review \& Editing; Maarten Marsman: Funding Acquisition, Conceptualization, Methodology, Supervision, Validation, Writing - Review \& Editing; Eric-Jan Wagenmakers: Funding Acquisition, Methodology, Supervision, Validation, Writing - Review \& Editing; Julia M. Haaf: Conceptualization, Formal Analysis, Methodology, Software, Supervision, Validation, Writing - Original Draft Preparation, Writing - Review \& Editing.
+Correspondence concerning this article should be addressed to: Alexandra Sarafoglou, Department of Psychology, PO Box 15906, 1001 NK Amsterdam, The Netherlands, E-mail: \href{mailto:alexandra.sarafoglou@gmail.com}{\nolinkurl{alexandra.sarafoglou@gmail.com}}
 
 }
 
@@ -223,7 +223,7 @@ In the Bayesian framework, researchers may test hypotheses of interest by means 
 \end{align*}
 where the subscript \(r\) denotes the informed hypothesis and \(e\) denotes the encompassing hypothesis. Several available \texttt{R} packages compute Bayes factors for informed hypotheses. For instance, the package \textbf{multinomineq} (Heck \& Davis-Stober, 2019) evaluates informed hypotheses for multinomial models as well as models that feature independent binomials. The package \textbf{BFpack} (Mulder et al., in press) evaluates informed hypotheses for statistical models such as univariate and multivariate normal linear models, generalized linear models, special cases of linear mixed models, survival models, and relational event models. The package \textbf{BAIN} (Gu, Hoijtink, Mulder, \& Rosseel, 2019) evaluates informed hypotheses for structural equation models. Outside of \texttt{R}, the Fortran 90 program \textbf{BIEMS} (Mulder, Hoijtink, \& de Leeuw, 2012) evaluates informed hypotheses for multivariate linear models such as MANOVA, repeated measures, and multivariate regression. All these packages rely on one of two implementations of the encompassing prior approach (Klugkist, Kato, \& Hoijtink, 2005; Sedransk, Monahan, \& Chiu, 1985) to approximate order constrained Bayes factors: the unconditional encompassing method (Hoijtink, 2011; Hoijtink et al., 2008; Klugkist et al., 2005 ) and the conditional encompassing method (Gu, Mulder, Deković, \& Hoijtink, 2014; Laudy, 2006; Mulder, 2014, 2016; Mulder et al., 2009). Even though the encompassing prior approach is currently the most common method to evaluate informed hypotheses, it becomes increasingly unreliable and inefficient as the number of restrictions increases or the parameter space of the restricted model decreases (Sarafoglou et al., in press).
 
-As alternative to the encompassing prior approach, Sarafoglou et al. (in press) recently proposed a bridge sampling routine (Bennett, 1976; Meng \& Wong, 1996) that computes Bayes factors for informed hypotheses more reliably and efficiently. This routine is implemented in \textbf{multibridge} (\url{https://CRAN.R-project.org/package=multibridge}) and is suitable to evaluate inequality constraints for multinomial and binomial models. When an informed hypothesis includes mixtures of equality and inequality constraints, the core functions in \textbf{multibridge} split the hypothesis to compute Bayes factors separately for equality constraints (for which the Bayes factor has an analytic solution) and inequality constraints (for which the Bayes factor is estimated using bridge sampling). The core functions of \textbf{multibridge}, that is \(\texttt{mult\_bf\_informed}\) and \(\texttt{binom\_bf\_informed}\), return the Bayes factor estimate in favor of or against the informed hypothesis (see Table \ref{table:arguments} for a summary of the basic required arguments of the two core functions). In addition, users can visualize the posterior parameter estimates under the encompassing hypothesis using the \texttt{plot}-method, or get more detailed information on how the Bayes factor is composed using the \texttt{summary}-method. For hypotheses that include mixtures between equality and inequality constrained hypotheses the \texttt{bayes\_factor} method separately returns the Bayes factor for the equality constraints and the conditional Bayes factor for the inequality constraints given the equality constraints. The informed hypothesis can be conveniently specified using a string or character vector. Furthermore, the transitivity property of Bayes factors can be used to test two informed hypotheses against each other (see Example 1 for an illustration). The general workflow of \textbf{multibridge} is illustrated in Figure \ref{fig:scheme-multibridge}. Table \ref{table:s3_methods} summarizes all S3 methods currently available in \textbf{multibridge}.
+As alternative to the encompassing prior approach, Sarafoglou et al. (in press) recently proposed a bridge sampling routine (Bennett, 1976; Meng \& Wong, 1996) that computes Bayes factors for informed hypotheses more reliably and efficiently. This routine is implemented in \textbf{multibridge} (\url{https://CRAN.R-project.org/package=multibridge}) and is suitable to evaluate inequality constraints for multinomial and binomial models. When an informed hypothesis includes mixtures of equality and inequality constraints, the core functions in \textbf{multibridge} split the hypothesis to compute Bayes factors separately for equality constraints (for which the Bayes factor has an analytic solution) and inequality constraints (for which the Bayes factor is estimated using bridge sampling). The core functions of \textbf{multibridge}, that is \(\texttt{mult\_bf\_informed}\) and \(\texttt{binom\_bf\_informed}\), return the Bayes factor estimate in favor of or against the informed hypothesis (see Table \ref{table:arguments} for a summary of the basic required arguments of the two core functions). In addition, users can visualize the posterior parameter estimates under the encompassing hypothesis using the \texttt{plot}-method, or get more detailed information on how the Bayes factor is composed using the \texttt{summary}-method. For hypotheses that include mixtures between equality and inequality constrained hypotheses the \texttt{bayes\_factor} method separately returns the Bayes factor for the equality constraints and the conditional Bayes factor for the inequality constraints given the equality constraints. The informed hypothesis can be conveniently specified using a string or character vector. Furthermore, the transitivity property of Bayes factors can be used to test two informed hypotheses against each other (see Example 1 for an illustration). The general workflow of \textbf{multibridge} is illustrated in Figure \ref{fig:scheme-multibridge}. A list of all currently available functions and data sets is given in Table \ref{table:core_functions}.
 
 
 
@@ -233,39 +233,23 @@ As alternative to the encompassing prior approach, Sarafoglou et al. (in press) 
 \clearpage
 
 \begin{table}[H]
-\caption{To estimate the Bayes factor in favor for or against the specified informed hypothesis, the user provides the core functions \texttt{mult\_bf\_informed} and \texttt{binom\_bf\_informed} with the basic required arguments listed below.}
-\label{table:arguments}
+\caption {Core functions available in $\textbf{multibridge}$.}
+\label{table:core_functions}
 \begin{center}
-\begin{tabular}{p{4cm}p{12cm}}
+\begin{tabular}{p{5.5cm}p{10.5cm}}
         \toprule
-Argument & Description \\\midrule
-\texttt{x} & \texttt{numeric}. Vector with data (for multinomial models) or a vector of counts of successes, or a two-dimensional table (or matrix) with 2 columns, giving the counts of successes and failures, respectively (for binomial models).  \\
-\texttt{n} &  \texttt{numeric}. Vector with counts of trials. Must be the same length as \texttt{x}. Ignored if \texttt{x} is a matrix or a table. Included only in \texttt{binom\_bf\_informed}. \\
-\texttt{Hr} & \texttt{string} or \texttt{character}. String or vector with the user specified informed hypothesis. Parameters may be referenced by the specified \texttt{factor\_levels} or by numerical indices.\\
-\texttt{a} & \texttt{numeric}. Vector with concentration parameters of Dirichlet distribution (for multinomial models) or $\alpha$ parameters for independent beta distributions (for binomial models). Must be the same length as \texttt{x}. Default sets all parameters to 1. \\
-\texttt{b} & \texttt{numeric}. Vector with $\beta$ parameters. Must be the same length as \texttt{x}. Default sets all $\beta$ parameters to 1. Included only in \texttt{binom\_bf\_informed}.\\
-\texttt{factor\_levels} &  \texttt{character}. Vector with category labels. Must be the same length as \texttt{x}.\\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
-
-\begin{table}[H]
-\caption {S3 methods available in $\textbf{multibridge}$.}
-\label{table:s3_methods}
-\begin{center}
-\begin{tabular}{p{4cm}p{3.5cm}p{9cm}}
-        \toprule
-Function Name(s) & S3 Method & Description \\\midrule
-$\texttt{mult\_bf\_informed}$, $\texttt{binom\_bf\_informed}$ & $\texttt{print}$ & Prints model specifications and descriptives. \\
- & $\texttt{summary}$ &  Prints and returns the Bayes factor and associated hypotheses for the full model, and all equality and inequality constraints.\\
-  & $\texttt{plot}$ & Plots the posterior median and credible interval of the parameter estimates of the encompassing model. Default sets credible interval to 95\%.\\
- & $\texttt{bayes\_factor}$ & Contains all Bayes factors and log marginal likelihood estimates for inequality constraints.\\
- & $\texttt{samples}$ & Extracts prior and posterior samples from constrained densities (if bridge sampling was applied). \\
-& $\texttt{bridge\_output}$  &  Extracts bridge sampling output and associated error measures.\\
-& $\texttt{restriction\_list}$ & Extracts restriction list and associated informed hypothesis. \\
-$\texttt{mult\_bf\_inequality}$, $\texttt{binom\_bf\_inequality}$  & $\texttt{print}$ & Prints the bridge sampling estimate for the log marginal likelihood and the corresponding percentage error. \\
-& $\texttt{summary}$ & Prints and returns the bridge sampling estimate for the log marginal likelihood and associated error terms.\\
+Function Name(s) & Description \\\midrule
+$\texttt{mult\_bf\_informed}$ & Evaluates informed hypotheses on multinomial parameters.  \\
+$\texttt{mult\_bf\_inequality}$ & Estimates the marginal likelihood of a constrained prior or posterior Dirichlet distribution.  \\
+$\texttt{mult\_bf\_equality}$ & Computes Bayes factor for equality constrained multinomial parameters using the standard Bayesian multinomial test.  \\
+$\texttt{mult\_tsampling}$ & Samples from constrained prior or posterior Dirichlet density.\\
+$ \texttt{lifestresses}, \texttt{peas}$ & Data sets associated with informed hypotheses in multinomial models.\\\midrule
+$\texttt{binom\_bf\_informed}$ & Evaluates informed hypotheses on binomial parameters.  \\
+$\texttt{binom\_bf\_inequality}$ & Estimates the marginal likelihood of constrained prior or posterior beta distributions.\\
+$\texttt{binom\_bf\_equality}$ & Computes Bayes factor for equality constrained binomial parameters. \\
+$\texttt{binom\_tsampling}$ & Samples from constrained prior or posterior beta densities.\\
+$ \texttt{journals}$ & Data set associated with informed hypotheses in binomial models.\\\midrule
+$ \texttt{generate\_restriction\_list}$ & Encodes the informed hypothesis.\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -362,9 +346,9 @@ The sampling from the target and proposal distribution, the transformations and 
 \hypertarget{usage-and-examples}{%
 \section{Usage and Examples}\label{usage-and-examples}}
 
-\noindent In the following, we will outline two examples on how to use \textbf{multibridge} to compare an informed hypothesis to a null or encompassing hypothesis. The first example concerns multinomial data and the second example concerns independent binomial data.
+\noindent In the following, we will outline two examples on how to use \textbf{multibridge} to compare an informed hypothesis to a null or encompassing hypothesis. The first example concerns multinomial data and the second example concerns independent binomial data. Additional examples are available as vignettes (see \texttt{vignette(package\ =\ "multibridge")}).
 
-A list of all currently available functions and data sets is given in Table \ref{table:core_functions}. Additional examples are available as vignettes (see \texttt{vignette(package\ =\ "multibridge")}). The two core functions of \textbf{multibridge}---\texttt{mult\_bf\_informed} and the \texttt{binom\_bf\_informed}---can be illustrated schematically as follows:
+The two core functions of \textbf{multibridge}---\texttt{mult\_bf\_informed} and the \texttt{binom\_bf\_informed}---can be illustrated schematically as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -373,24 +357,44 @@ A list of all currently available functions and data sets is given in Table \ref
 \end{Highlighting}
 \end{Shaded}
 
+To compute a Bayes factor, the core functions require the observed counts, the informed hypothesis, the prior specifications under \(\mathcal{H}_e\), and a vector with category labels. An overview of these arguments are provided in Table \ref{table:arguments}.
+
 \begin{table}[H]
-\caption {Core functions available in $\textbf{multibridge}$.}
-\label{table:core_functions}
+\caption{To estimate the Bayes factor in favor for or against the specified informed hypothesis, the user provides the core functions \texttt{mult\_bf\_informed} and \texttt{binom\_bf\_informed} with the basic required arguments listed below.}
+\label{table:arguments}
 \begin{center}
-\begin{tabular}{p{5.5cm}p{10.5cm}}
+\begin{tabular}{p{4cm}p{12cm}}
         \toprule
-Function Name(s) & Description \\\midrule
-$\texttt{mult\_bf\_informed}$ & Evaluates informed hypotheses on multinomial parameters.  \\
-$\texttt{mult\_bf\_inequality}$ & Estimates the marginal likelihood of a constrained prior or posterior Dirichlet distribution.  \\
-$\texttt{mult\_bf\_equality}$ & Computes Bayes factor for equality constrained multinomial parameters using the standard Bayesian multinomial test.  \\
-$\texttt{mult\_tsampling}$ & Samples from constrained prior or posterior Dirichlet density.\\
-$ \texttt{lifestresses}, \texttt{peas}$ & Data sets associated with informed hypotheses in multinomial models.\\\midrule
-$\texttt{binom\_bf\_informed}$ & Evaluates informed hypotheses on binomial parameters.  \\
-$\texttt{binom\_bf\_inequality}$ & Estimates the marginal likelihood of constrained prior or posterior beta distributions.\\
-$\texttt{binom\_bf\_equality}$ & Computes Bayes factor for equality constrained binomial parameters. \\
-$\texttt{binom\_tsampling}$ & Samples from constrained prior or posterior beta densities.\\
-$ \texttt{journals}$ & Data set associated with informed hypotheses in binomial models.\\\midrule
-$ \texttt{generate\_restriction\_list}$ & Encodes the informed hypothesis.\\
+Argument & Description \\\midrule
+\texttt{x} & \texttt{numeric}. Vector with data (for multinomial models) or a vector of counts of successes, or a two-dimensional table (or matrix) with 2 columns, giving the counts of successes and failures, respectively (for binomial models).  \\
+\texttt{n} &  \texttt{numeric}. Vector with counts of trials. Must be the same length as \texttt{x}. Ignored if \texttt{x} is a matrix or a table. Included only in \texttt{binom\_bf\_informed}. \\
+\texttt{Hr} & \texttt{string} or \texttt{character}. String or vector with the user specified informed hypothesis. Parameters may be referenced by the specified \texttt{factor\_levels} or by numerical indices.\\
+\texttt{a} & \texttt{numeric}. Vector with concentration parameters of Dirichlet distribution (for multinomial models) or $\alpha$ parameters for independent beta distributions (for binomial models). Must be the same length as \texttt{x}. Default sets all parameters to 1. \\
+\texttt{b} & \texttt{numeric}. Vector with $\beta$ parameters. Must be the same length as \texttt{x}. Default sets all $\beta$ parameters to 1. Included only in \texttt{binom\_bf\_informed}.\\
+\texttt{factor\_levels} &  \texttt{character}. Vector with category labels. Must be the same length as \texttt{x}.\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+The package also includes S3 methods that, among other things, summarize the results, plot the parameter estimates under \(\mathcal{H}_e\), or extracts the Bayes factors. Table \ref{table:s3_methods} summarizes all S3 methods currently available in \textbf{multibridge}.
+
+\begin{table}[H]
+\caption {S3 methods available in $\textbf{multibridge}$.}
+\label{table:s3_methods}
+\begin{center}
+\begin{tabular}{p{4cm}p{3.5cm}p{9cm}}
+        \toprule
+Function Name(s) & S3 Method & Description \\\midrule
+$\texttt{mult\_bf\_informed}$, $\texttt{binom\_bf\_informed}$ & $\texttt{print}$ & Prints model specifications and descriptives. \\
+ & $\texttt{summary}$ &  Prints and returns the Bayes factor and associated hypotheses for the full model, and all equality and inequality constraints.\\
+  & $\texttt{plot}$ & Plots the posterior median and credible interval of the parameter estimates of the encompassing model. Default sets credible interval to 95\%.\\
+ & $\texttt{bayes\_factor}$ & Contains all Bayes factors and log marginal likelihood estimates for inequality constraints.\\
+ & $\texttt{samples}$ & Extracts prior and posterior samples from constrained densities (if bridge sampling was applied). \\
+& $\texttt{bridge\_output}$  &  Extracts bridge sampling output and associated error measures.\\
+& $\texttt{restriction\_list}$ & Extracts restriction list and associated informed hypothesis. \\
+$\texttt{mult\_bf\_inequality}$, $\texttt{binom\_bf\_inequality}$  & $\texttt{print}$ & Prints the bridge sampling estimate for the log marginal likelihood and the corresponding percentage error. \\
+& $\texttt{summary}$ & Prints and returns the bridge sampling estimate for the log marginal likelihood and associated error terms.\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -472,7 +476,8 @@ Both \(\text{BF}_{0e}\) and \(\text{BF}_{r2e}\) may be readily computed by means
 \end{Highlighting}
 \end{Shaded}
 
-The hypotheses \(\mathcal{H}_{r1}\) and \(\mathcal{H}_{r3}\) contain inequality constraints, and this necessitates the use of the function \texttt{mult\_bf\_informed} to compute the Bayes factors \(\text{BF}_{r1e}\) and \(\text{BF}_{r3e}\). This function requires (1) a vector with observed counts, (2) a vector with concentration parameters of the Dirichlet prior distribution under \(\mathcal{H}_e\), (3) labels for the categories of interest (i.e., leading digits), and (4) the informed hypothesis \(\mathcal{H}_{r1}\) or \(\mathcal{H}_{r3}\) (e.g., as a string):
+The hypotheses \(\mathcal{H}_{r1}\) and \(\mathcal{H}_{r3}\) contain inequality constraints, and this necessitates the use of the function \texttt{mult\_bf\_informed} to compute the Bayes factors \(\text{BF}_{r1e}\) and \(\text{BF}_{r3e}\). This function requires (1) a vector with observed counts, (2) a vector with concentration parameters of the Dirichlet prior distribution under \(\mathcal{H}_e\), (3) labels for the categories of interest (i.e., leading digits), and (4) the informed hypothesis \(\mathcal{H}_{r1}\) or \(\mathcal{H}_{r3}\) (e.g., as a string).
+In addition to the basic required arguments, we use two additional arguments here. The first argument sets the Bayes factor type, that is, whether the output should print the Bayes factor in favor of (i.e., \(\text{BF}_{re}\)) or against the informed hypothesis (i.e., \(\text{BF}_{er}\)). It is also possible to compute the log Bayes factor against the informed hypothesis, which is the setting we choose for this example. The second argument \texttt{seed} allows us sets a seed which makes the results reproducible:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -569,7 +574,7 @@ The \textbf{multibridge} package can be used to test \(\mathcal{H}_{r1}\) and \(
 \hypertarget{method-1}{%
 \subsubsection{Method}\label{method-1}}
 
-To compute the Bayes factor \(\text{BF}_{0r}\) we need to specify (1) a vector with observed successes (i.e., the number of articles that contain a statistical inconsistency), (2) a vector containing the total number of observations (i.e., the number of articles), (3) a vector with prior parameter \(\alpha_k\) for each binomial proportion of the beta prior distribution under \(\mathcal{H}_e\), (4) a vector with prior parameter \(\beta_k\) for each binomial proportion of the beta prior distribution under \(\mathcal{H}_e\), (5) the category labels (i.e., journal names), and (6) the informed hypothesis \(\mathcal{H}_{r1}\) or \(\mathcal{H}_{r2}\) (e.g., as a string). Since we have no specific expectations about the distribution of statistical reporting errors in any given journal, we set all parameters \(\alpha_k\) and \(\beta_k\) to one which corresponds to uniform beta distributions. With this information, we can now conduct the analysis with the function \texttt{binom\_bf\_informed}.
+To compute the Bayes factor \(\text{BF}_{0r}\) we need to specify (1) a vector with observed successes (i.e., the number of articles that contain a statistical inconsistency), (2) a vector containing the total number of observations (i.e., the number of articles), (3) a vector with prior parameter \(\alpha_k\) for each binomial proportion of the beta prior distribution under \(\mathcal{H}_e\), (4) a vector with prior parameter \(\beta_k\) for each binomial proportion of the beta prior distribution under \(\mathcal{H}_e\), (5) the category labels (i.e., journal names), and (6) the informed hypothesis \(\mathcal{H}_{r1}\) or \(\mathcal{H}_{r2}\) (e.g., as a string). To compare the informed hypothesis to the null hypothesis, we also change the Bayes factor type so that the function returns the log Bayes factor in favor for the informed hypothesis. Since we have no specific expectations about the distribution of statistical reporting errors in any given journal, we set all parameters \(\alpha_k\) and \(\beta_k\) to one which corresponds to uniform beta distributions. With this information, we can now conduct the analysis with the function \texttt{binom\_bf\_informed}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -662,11 +667,34 @@ The \texttt{R} package \textbf{multibridge} facilitates the estimation of Bayes 
 
 \textbf{multibridge} supports the evaluation of informed hypotheses that feature equality constraints, inequality constraints, and free parameters, as well as mixtures between them. Moreover, users can choose to test the informative hypothesis against an encompassing hypothesis that lets all parameters vary freely or against the null hypothesis that states that category proportions are exactly equal. Beyond the core functions currently implemented in \textbf{multibridge}, there are several natural extensions we aim to include in future versions of this package. For instance, to compare several models with each other we plan to implement functions that compute the posterior model probabilities. Another extension is to facilitate the specification of hierarchical binomial and multinomial models which would allow users to analyze data where responses are nested within a higher-order structure such as participants, schools, or countries. Hierarchical multinomial models can be found, for instance, in source memory research where people need to select a previously studied item from a list (e.g., Arnold, Heck, Bröder, Meiser, \& Boywitt, 2019). In addition, we aim to enable the specification of informed hypotheses that are more complex, including hypotheses on the size ratios of the parameters (e.g., \(\theta_1 < 2 \times \theta_2\)) of interest or the difference between category proportions such that informed hypotheses can also be specified on odds ratios (e.g., \(\frac{\theta_1}{(\theta_1 + \theta_2)} < \frac{\theta_3}{(\theta_3 + \theta_4)}\)).
 
-\hypertarget{acknowledgements}{%
-\section{Acknowledgements}\label{acknowledgements}}
+\hypertarget{declarations}{%
+\section{Declarations}\label{declarations}}
+
+\hypertarget{availability-of-data-and-code}{%
+\subsection{Availability of data and code}\label{availability-of-data-and-code}}
+
+The source code of the R package is available at: \url{https://github.com/ASarafoglou/multibridge/}. In addition, readers can access the code for reproducing all analyses and plots via our project folder on the Open Science Framework: \url{https://osf.io/2wf5y/}.
+
+\hypertarget{funding}{%
+\subsection{Funding}\label{funding}}
 
 This research was supported by a Netherlands Organisation for Scientific Research (NWO) grant
 to AS (406-17-568), a Veni grant from the NWO to MM (451-17-017), a Vici grant from the NWO to EJW (016.Vici.170.083), as well as a a European Research Council (ERC) grant to EJW (283876). This paper was written in Rmarkdown, using the \texttt{R} package \textbf{papaja} (Aust \& Barth, 2020).
+
+\hypertarget{author-contributions}{%
+\subsection{Author contributions}\label{author-contributions}}
+
+The authors made the following contributions. Alexandra Sarafoglou: Conceptualization, Data Curation, Formal Analysis, Funding Acquisition, Methodology, Project Administration, Software, Validation, Visualization, Writing - Original Draft Preparation, Writing - Review \& Editing; Frederik Aust: Conceptualization, Software, Supervision, Validation, Visualization, Writing - Original Draft Preparation, Writing - Review \& Editing; Maarten Marsman: Funding Acquisition, Conceptualization, Methodology, Supervision, Validation, Writing - Review \& Editing; Eric-Jan Wagenmakers: Funding Acquisition, Methodology, Supervision, Validation, Writing - Review \& Editing; Julia M. Haaf: Conceptualization, Formal Analysis, Methodology, Software, Supervision,15Validation, Writing - Original Draft Preparation, Writing - Review \& Editing.
+
+\hypertarget{conflicts-of-interest}{%
+\subsection{Conflicts of interest}\label{conflicts-of-interest}}
+
+The authors declare that there were no conflicts of interest with respect to the authorship or the publication of this article.
+
+\hypertarget{ethical-approval}{%
+\subsection{Ethical Approval}\label{ethical-approval}}
+
+This is a methodological contribution which requires no ethical approval.
 
 \clearpage
 
