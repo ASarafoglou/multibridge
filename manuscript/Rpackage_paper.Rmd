@@ -245,7 +245,7 @@ mult_bf_informed(x, Hr, a, factor_levels)
 binom_bf_informed(x, n, Hr, a, b, factor_levels)
 ```
 
-To compute a Bayes factor, the core functions require the observed counts, the informed hypothesis, the prior specifications under $\mathcal{H}_e$, and a vector with category labels. An overview of these arguments are provided in Table \ref{table:arguments}.
+To compute a Bayes factor, the core functions require the observed counts, the informed hypothesis, the parameters of the prior distribution under \(\mathcal{H}_e\), and the category labels. An overview of these arguments are provided in Table \ref{table:arguments}.
 
 \begin{table}[H]
 \caption{To estimate the Bayes factor in favor for or against the specified informed hypothesis, the user provides the core functions \texttt{mult\_bf\_informed} and \texttt{binom\_bf\_informed} with the basic required arguments listed below.}
@@ -265,7 +265,7 @@ Argument & Description \\\midrule
 \end{center}
 \end{table}
 
-The package also includes S3 methods that, among other things, summarize the results, plot the parameter estimates under $\mathcal{H}_e$, or extracts the Bayes factors. Table \ref{table:s3_methods} summarizes all S3 methods currently available in \textbf{multibridge}.
+The package also includes S3 methods that, among other things, summarize the results, plot the parameter estimates under \(\mathcal{H}_e\), or extract the Bayes factors. Table \ref{table:s3_methods} summarizes all S3 methods currently available in \textbf{multibridge}.
 
 \begin{table}[H]
 \caption {S3 methods available in $\textbf{multibridge}$.}
@@ -360,7 +360,7 @@ logBFer2 <- results_Hr2_He$bf$LogBFe0
 ```
 
 The hypotheses \(\mathcal{H}_{r1}\) and \(\mathcal{H}_{r3}\) contain inequality constraints, and this necessitates the use of the function \texttt{mult\_bf\_informed} to compute the Bayes factors \(\text{BF}_{r1e}\) and \(\text{BF}_{r3e}\). This function requires (1) a vector with observed counts, (2) a vector with concentration parameters of the Dirichlet prior distribution under $\mathcal{H}_e$, (3) labels for the categories of interest (i.e., leading digits), and (4) the informed hypothesis \(\mathcal{H}_{r1}\) or \(\mathcal{H}_{r3}\) (e.g., as a string). 
-In addition to the basic required arguments, we use two additional arguments here. The first argument sets the Bayes factor type, that is, whether the output should print the Bayes factor in favor of (i.e., \(\text{BF}_{re}\)) or against the informed hypothesis (i.e., \(\text{BF}_{er}\)). It is also possible to compute the log Bayes factor against the informed hypothesis, which is the setting we choose for this example. The second argument \texttt{seed} allows us sets a seed which makes the results reproducible:
+In addition to the basic required arguments, we use two additional arguments here. The first argument sets the Bayes factor type, that is, whether the output should print the Bayes factor in favor of the informed hypothesis (i.e., \(\text{BF}_{re}\)) or in favor of the encompassing hypothesis (i.e., \(\text{BF}_{er}\)). It is also possible to compute the log Bayes factor in favor of the hypothesis, which is the setting we choose for this example. The purpose of the second argument \texttt{seed} is to make the results reproducible:
 
 ```{r, message=FALSE, echo = TRUE, results='hide'}
 # Observed counts
@@ -489,7 +489,7 @@ The \textbf{multibridge} package can be used to test \(\mathcal{H}_{r1}\) and \(
 
 ### Method
 
-To compute the Bayes factor \(\text{BF}_{0r}\) we need to specify (1) a vector with observed successes (i.e., the number of articles that contain a statistical inconsistency), (2) a vector containing the total number of observations (i.e., the number of articles), (3) a vector with prior parameter \(\alpha_k\) for each binomial proportion of the beta prior distribution under \(\mathcal{H}_e\), (4) a vector with prior parameter \(\beta_k\) for each binomial proportion of the beta prior distribution under \(\mathcal{H}_e\), (5) the category labels (i.e., journal names), and (6) the informed hypothesis \(\mathcal{H}_{r1}\) or \(\mathcal{H}_{r2}\) (e.g., as a string). To compare the informed hypothesis to the null hypothesis, we also change the Bayes factor type so that the function returns the log Bayes factor in favor for the informed hypothesis. Since we have no specific expectations about the distribution of statistical reporting errors in any given journal, we set all parameters \(\alpha_k\) and \(\beta_k\) to one which corresponds to uniform beta distributions. With this information, we can now conduct the analysis with the function \texttt{binom\_bf\_informed}.
+To compute the Bayes factor \(\text{BF}_{0r}\) we need to specify (1) a vector with observed successes (i.e., the number of articles that contain a statistical inconsistency), (2) a vector containing the total number of observations (i.e., the number of articles), (3) a vector with prior parameter \(\alpha_k\) for each binomial proportion of the beta prior distribution under \(\mathcal{H}_e\), (4) a vector with prior parameter \(\beta_k\) for each binomial proportion of the beta prior distribution under \(\mathcal{H}_e\), (5) the category labels (i.e., journal names), and (6) the informed hypothesis \(\mathcal{H}_{r1}\) or \(\mathcal{H}_{r2}\) (e.g., as a string). We also change the Bayes factor type to \texttt{LogBFr0} so that the function returns the log Bayes factor in favor for the informed hypothesis compared to the null hypothesis. Since we have no specific expectations about the distribution of statistical reporting errors in any given journal, we set all parameters \(\alpha_k\) and \(\beta_k\) to one which corresponds to uniform beta distributions. With this information, we can now conduct the analysis with the function \texttt{binom\_bf\_informed}.
 
 ```{r, echo=TRUE, message=FALSE, results='hide'}
 # Since percentages are rounded to two decimal values, we round the
