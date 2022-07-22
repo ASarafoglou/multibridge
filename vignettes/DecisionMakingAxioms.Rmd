@@ -1,0 +1,140 @@
+---
+title: "Decision Making Axioms"
+author: "Alexandra Sarafoglou"
+date: "7/21/2022"
+output: html_document
+vignette: >
+  %\VignetteIndexEntry{Decision Making Axioms}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+bibliography: ../inst/REFERENCES.bib
+---
+
+<!-- In this vignette, we will explain how to compute a Bayes factor for informed hypotheses on  -->
+<!-- decision making axioms.  -->
+
+In this vignette, we will explain how to compute a Bayes factor for informed hypotheses on covariates.
+
+## Model and Data
+
+<!-- As an example on how to compute Bayes factors to test the violation of decision making axioms we will use data from @myung2005bayesian. -->
+As an example on how to compute Bayes factors to test the ordinal relations between covariates we will use data from @birnbaum1999testing as presented in @myung2005bayesian. Specifically, we will test whether stochastic dominance is more often violated in women compared to men and more often in lower education levels than higher education levels.
+
+
+```{r load_data}
+# load the package and data
+library(multibridge)
+
+dat <- data.frame(gender = rep(c('male', 'female'), each = 4),
+                  education = rep(c('1', '2', '3', '4'), 2),
+                  levels = paste0(rep(c('m', 'f'), each = 4), 1:4),
+                  violation = c(0.487, 0.477, 0.523, 0.601,
+                                0.407, 0.555, 0.650, 0.622),
+                  n = c(80, 88, 195, 163,
+                        54, 108, 206, 318),
+                  x = c(39, 42, 102, 98, 
+                        22, 60, 134, 198))
+
+```
+
+The model that we will use assumes that the elements in the vector of successes $x_1, \cdots, x_K$ and the elements in the vector of total number of observations $n_1, \cdots, n_K$ in the $K$ categories follow independent binomial distributions. The parameter vector of the binomial success probabilities, $\theta_1, \cdots, \theta_K$, contains the probabilities of observing a value in a particular category; here, it reflects the probabilities of violating stochastic dominance. The parameter vector $\theta_1, \cdots, \theta_K$ are drawn from independent beta distributions with parameters $\alpha_1, \cdots, \alpha_K$ and $\beta_1, \cdots, \beta_K$. The model can be described as follows:
+
+\begin{align}
+  x_1 \cdots x_K & \sim \prod_{k = 1}^K \text{Binomial}(\theta_k, n_k) \\
+  \theta_1 \cdots \theta_K &\sim \prod_{k = 1}^K \text{Beta}(\alpha_k, \beta_k) \\
+\end{align}
+
+Here, we test three inequality-constrained hypothesis $\mathcal{H}_{r1}$, $\mathcal{H}_{r2}$, $\mathcal{H}_{r3}$ formulated by @myung2005bayesian. The first hypothesis states that the probability to violate stochastic dominance is lower for males than for females. The second hypothesis states that the probability to violate stochastic dominance decreases for persons with lower education levels. The third hypothesis originally stated by @birnbaum1999testing combines hypotheses $\mathcal{H}_{r1}$ and $\mathcal{H}_{r2}$. We will test this hypothesis against the encompassing hypothesis $\mathcal{H}_e$ without any constraints. 
+
+\begin{align*}
+    \mathcal{H}_e &: (\theta_{\text{m1}}, \theta_{\text{m2}}, \theta_{\text{m3}}, \theta_{\text{m4}}, \theta_{\text{f1}}, \theta_{\text{f2}}, \theta_{\text{f3}}, \theta_{\text{f4}}) \\
+    \mathcal{H}_{r1} &: (\theta_{\text{m1}}, \theta_{\text{m2}}, \theta_{\text{m3}}, \theta_{\text{m4}}) < (\theta_{\text{f1}}, \theta_{\text{f2}}, \theta_{\text{f3}}, \theta_{\text{f4}})\\
+    \mathcal{H}_{r2} &: (\theta_{\text{m1}}, \theta_{\text{f1}}) < (\theta_{\text{m2}}, \theta_{\text{f2}}) < (\theta_{\text{m3}}, \theta_{\text{f3}}) < (\theta_{\text{m4}}, \theta_{\text{f4}}) \\
+    \mathcal{H}_{r3} &: \theta_{\text{m1}} < \theta_{\text{f1}} < \theta_{\text{m2}} < \theta_{\text{f2}} < \theta_{\text{m3}} < \theta_{\text{f3}} < \theta_{\text{m4}} < \theta_{\text{f4}}.
+\end{align*}
+
+To evaluate the inequality-constrained hypothesis, we need to specify (1) a vector with observed successes, and (2) a vector containing the total number of observations, (3) the informed hypothesis, (4) a vector with prior parameters alpha for each binomial proportion, (5) a vector with prior parameters beta for each binomial proportion, and (6) the labels of the categories of interest (i.e., gender and education level): 
+
+```{r specify_hr}
+# number of violations
+x <- dat$x
+# total number people in the category
+n <- dat$n
+
+# Specifying the informed Hypothesis (step 3)
+Hr1 <- c('m1, m2, m3, m4 < f1, f2, f3, f4')
+Hr2 <- c('m1, f1 < m2, f2 < m3, f3 < m4, f4')
+Hr3 <- c('m1 < f1 < m2 < f2 < m3 < f3 < m4 < f4')
+
+# Prior specification (step 4 and 5)
+# We assign a uniform beta distribution to each binomial propotion
+a <- rep(1, 8)
+b <- rep(1, 8)
+
+# categories of interest (step 6)
+gender_edu <- dat$levels
+```
+
+## Analysis of BFre
+
+With this information, we can now conduct the analysis with the function `binom_bf_informed()`. Since we are interested in quantifying evidence in favor of the restricted hypothesis, we set the Bayes factor type to `BFre`. For reproducibility, we are also setting a seed with the argument `seed`:
+
+```{r compute_results}
+ineq_results1 <- multibridge::binom_bf_informed(x=x, n=n, Hr=Hr1, a=a, b=b, 
+                                             factor_levels=gender_edu, 
+                                             bf_type = 'BFre',
+                                             seed = 2020)
+m1 <- summary(ineq_results1)
+
+ineq_results2 <- multibridge::binom_bf_informed(x=x, n=n, Hr=Hr2, a=a, b=b, 
+                                             factor_levels=gender_edu, 
+                                             bf_type = 'BFre',
+                                             seed = 2020)
+m2 <- summary(ineq_results2)
+
+ineq_results3 <- multibridge::binom_bf_informed(x=x, n=n, Hr=Hr3, a=a, b=b, 
+                                             factor_levels=gender_edu, 
+                                             bf_type = 'BFre',
+                                             seed = 2020)
+m3 <- summary(ineq_results3)
+```
+
+We can inspect the percentage error from all three models from the output object. From that, we can see that the overall relative mean-square error for all three models is quite low, which suggests stable results. 
+
+```{r percentage_error}
+rbind('Hr1' = ineq_results1$bf_list$error_measures,
+      'Hr2' = ineq_results2$bf_list$error_measures,
+      'Hr3' = ineq_results3$bf_list$error_measures)
+```
+
+For hypotheses $\mathcal{H}_{r1}$, the data are more likely under the encompassing hypothesis than under the 
+informed hypothesis. This hypothesis predicted a main effect of gender, that is, that men should have a lower probability
+of violating stochastic dominance than females regardless of their education level. For hypotheses $\mathcal{H}_{r2}$ and $\mathcal{H}_{r3}$, the data are more likely under the informed hypothesis than under the 
+encompassing hypothesis. The data provide strong evidence for both hypotheses.
+
+```{r show_bfre}
+rbind('BFre_Hr1' = m1$bf,
+      'BFre_Hr2' = m2$bf,
+      'BFre_Hr3' = m3$bf)
+```
+
+The data provide strong evidence for the most complex hypothesis $\mathcal{H}_{r3}$ compared to the encompassing hypothesis with a Bayes factor of `r signif(m3$bf, 4)`. The ordinal constraint also becomes apparent, when we plot the posterior estimates.
+
+```{r plot_estimates}
+plot(m3)
+```
+
+## Posterior Model Probabilities
+
+Lastly, we can compare all models directly with each other by computing the posterior model probabilities. 
+
+```{r posterior_probs}
+post_probs <- data.frame(
+   Hyps = c('p(He | x)', 'p(Hr1 | x)', 'p(Hr2 | x)', 'p(Hr3 | x)'), 
+   Prob = c(1, m1$bf, m2$bf, m3$bf)/sum(c(1, m1$bf, m2$bf, m3$bf)))
+post_probs
+```
+
+The model which predicts only a gender effect performs worse than the baseline model without any restrictions. Hypothesis $\mathcal{H}_{r3}$ outperforms all other models, with a posterior model probability of `r signif(post_probs[4, 'Prob'], 2) * 100` \%. These results are in line with the conclusions drawn by @myung2005bayesian and @birnbaum1999testing, that is, that taken into account the complexity of the model, hypothesis $\mathcal{H}_{r3}$ performs the best. With regard to hypothesis $\mathcal{H}_{r1}$, we can conclude that there is a gender effect, but that it is dependent on the level of education.
+   
+# References
