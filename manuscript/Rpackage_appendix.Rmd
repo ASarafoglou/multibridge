@@ -59,7 +59,7 @@ the sum-to-one constraint the upper bounds depend on the values of
 smaller elements as well as on the number of remaining larger elements
 in $\boldsymbol{\theta}$. To be able to determine the upper bounds, we
 represent $\boldsymbol{\theta}$ as unit-length stick which we
-subsequently divide into $K$ elements [@frigyik2010introduction, stan2020]. By using this so-called
+subsequently divide into $K$ elements [@frigyik2010introduction, @stan2020]. By using this so-called
 stick-breaking method we can define the upper bound for any $\theta_k$
 as follows:
 
@@ -261,6 +261,25 @@ $\theta_3$ would take on the value close to its upper bound, for
 instance $\theta_3 = 0.265$, $\theta_4$---due to the sum-to-one
 constraint---would take on the value $0.295$ which would be in
 accordance with the constraint (i.e., $0.15 < (0.29, 0.265) < 0.295$).
+
+<!-- # Bridge Sampling algorithm -->
+<!-- \begin{align*} -->
+<!--     \hat p(\boldsymbol{\theta} \in \mathcal{R}_r \mid \mathcal{H}_e)^{(t+1)} \approx \cfrac{\cfrac{1}{N_2} \sum_{m = 1}^{N_2} \cfrac{\ell_{2,m}}{s_1 \ell_{2,m} + s_2 p(\boldsymbol{\tilde \theta_m} \in \mathcal{R}_r \mid \mathcal{H}_e)^{(t)}}} -->
+<!--     {\cfrac{1}{N_1} \sum_{n = 1}^{N_1} \cfrac{1}{s_1 \ell_{1,n} + s_2 p(\boldsymbol{\theta^*_n} \in \mathcal{R}_r \mid \mathcal{H}_e)^{(t)}}}, -->
+<!--     %\label{Eq:bridgeIterativeScheme} -->
+<!-- \end{align*} -->
+<!-- where \(N_1\) denotes the number of samples drawn from the constrained distribution, that is, \(\boldsymbol{\theta}^* \sim p(\boldsymbol{\theta} \mid \mathcal{H}_r)\), \(N_2\) denotes the number of samples drawn from the proposal distribution, that is \(\boldsymbol{\tilde \theta} \sim g(\boldsymbol{\theta})\), -->
+<!-- \(s_1 = \frac{N_1}{N_2 + N_1}\), and \(s_2 = \frac{N_2}{N_2 + N_1}\). The quantities \(\ell_{1,n}\) and \(\ell_{2,m}\) are defined as follows: -->
+
+<!-- \begin{align} -->
+<!--     \ell_{1,n} &= \cfrac{q_{1,1}}{q_{1,2}}  = \cfrac{p(\boldsymbol{\theta^*_n}\mid \mathcal{H}_e) \mathbb{I}(\boldsymbol{\theta^*_n}\in\mathcal{R}_r)}{g(\boldsymbol{\xi_n}^*)},\\ -->
+<!--     \ell_{2,m} &= \cfrac{q_{2,1}}{q_{2,2}} = \cfrac{p(\boldsymbol{\tilde \theta_m}\mid \mathcal{H}_e) \mathbb{I}(\boldsymbol{\tilde \theta_m}\in\mathcal{R}_r)}{g(\boldsymbol{\tilde \xi_m})}, -->
+<!-- \end{align} -->
+<!-- where \(\boldsymbol{\xi_n}^* = \Phi^{-1}\left(\cfrac{\boldsymbol{\theta^*_n} - \mathbf{l}}{\mathbf{u} - \mathbf{l}}\right)\), and \(\boldsymbol{\tilde \theta_m} = ((\mathbf{u} - \mathbf{l})\Phi(\boldsymbol{\tilde \xi_m}) + \mathbf{l}) \left|J\right|)\). The quantity \(q_{1,1}\) refers to the evaluations of the constrained distribution for constrained samples and \(q_{1,2}\) refers to the proposal distribution evaluated at the probit-transformed samples from the constrained distribution, respectively. The quantity \(q_{2,1}\) refers to evaluations of the constrained distribution at the inverse probit-transformed samples from the proposal distribution and \(q_{2,2}\) refers to the proposal evaluations for samples from the proposal, respectively. Note that the quantities \(\ell_{1,n}\) and \(\ell_{2,m}\) have been adjusted to account for the necessary parameter transformations to create overlap between the constrained distributions and the proposal distribution. \textbf{multibridge} runs the iterative scheme until the tolerance criterion suggested by @gronau2017tutorial is reached, that is: -->
+<!-- \begin{align*} -->
+<!-- \cfrac{\mid \hat p(\boldsymbol{\theta} \in \mathcal{R}_r \mid \mathcal{H}_e)^{(t + 1)} - \hat p(\boldsymbol{\theta} \in \mathcal{R}_r \mid \mathcal{H}_e)^{(t)} \mid}{\hat p(\boldsymbol{\theta} \in \mathcal{R}_r \mid \mathcal{H}_e)^{(t + 1)}} &\leq 10^{-10}. -->
+<!-- \end{align*} -->
+<!-- and the quantities \(q_{1,1}\), \(q_{1,2}\), \(q_{2,1}\), and \(q_{2,2}\). -->
 
 
 \clearpage

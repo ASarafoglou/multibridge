@@ -17,7 +17,6 @@ In this vignette, we will explain how to compute a Bayes factor for informed hyp
 
 ## Model and Data
 
-<!-- As an example on how to compute Bayes factors to test the violation of decision making axioms we will use data from @myung2005bayesian. -->
 As an example on how to compute Bayes factors to test the ordinal relations between covariates we will use data from @birnbaum1999testing as presented in @myung2005bayesian. Specifically, we will test whether stochastic dominance is more often violated in women compared to men and more often in lower education levels than higher education levels.
 
 
@@ -44,7 +43,7 @@ The model that we will use assumes that the elements in the vector of successes 
   \theta_1 \cdots \theta_K &\sim \prod_{k = 1}^K \text{Beta}(\alpha_k, \beta_k) \\
 \end{align}
 
-Here, we test three inequality-constrained hypothesis $\mathcal{H}_{r1}$, $\mathcal{H}_{r2}$, $\mathcal{H}_{r3}$ formulated by @myung2005bayesian. The first hypothesis states that the probability to violate stochastic dominance is lower for males than for females. The second hypothesis states that the probability to violate stochastic dominance decreases for persons with lower education levels. The third hypothesis originally stated by @birnbaum1999testing combines hypotheses $\mathcal{H}_{r1}$ and $\mathcal{H}_{r2}$. We will test this hypothesis against the encompassing hypothesis $\mathcal{H}_e$ without any constraints. 
+Here, we test three inequality-constrained hypotheses $\mathcal{H}_{r1}$, $\mathcal{H}_{r2}$, $\mathcal{H}_{r3}$ formulated by @myung2005bayesian. The first hypothesis states that the probability to violate stochastic dominance is lower for males than for females. The second hypothesis states that the probability to violate stochastic dominance decreases for persons with lower education levels. The third hypothesis originally stated by @birnbaum1999testing combines hypotheses $\mathcal{H}_{r1}$ and $\mathcal{H}_{r2}$. We will test this hypothesis against the encompassing hypothesis $\mathcal{H}_e$ without any constraints. 
 
 \begin{align*}
     \mathcal{H}_e &: (\theta_{\text{m1}}, \theta_{\text{m2}}, \theta_{\text{m3}}, \theta_{\text{m4}}, \theta_{\text{f1}}, \theta_{\text{f2}}, \theta_{\text{f3}}, \theta_{\text{f4}}) \\
