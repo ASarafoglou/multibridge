@@ -1,7 +1,7 @@
 
 #include <Rcpp.h>
-//#include <mpfr.h>
-#include "/opt/homebrew/Cellar/mpfr/4.1.0/include/mpfr.h"
+#include <mpfr.h>
+//#include "/opt/homebrew/Cellar/mpfr/4.1.0/include/mpfr.h"
 
 
 using namespace Rcpp;
