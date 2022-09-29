@@ -82,6 +82,8 @@ binom_bf_informed <- function(x, n=NULL, Hr, a, b, factor_levels=NULL, cred_leve
   ## Preprocessing for Analysis ##
   ################################
   
+  logml <- .binom_computeLogMl(a=a, b=b, x=x, n=total)
+  
   # Put factor levels in order for analysis
   constrained_factors   <- purrr::keep(Hr, function(x) any(x %in% factor_levels))
   
@@ -177,6 +179,8 @@ binom_bf_informed <- function(x, n=NULL, Hr, a, b, factor_levels=NULL, cred_leve
   
   ### Compute Bayes Factor BF_er ##
   logBFer <- sum(logBFe_equalities) + sum(logBFe_inequalities)
+  # BFer = mlHe/mlHr --> mlHr = mlHe/BFer
+  logml[['logmlHr']] <- logml$logmlHe - logBFer
   # compute associate error term
   re2 <- sum(error_measures_prior, error_measures_post)
   error_measures <- data.frame(re2 = re2, 
@@ -186,13 +190,30 @@ binom_bf_informed <- function(x, n=NULL, Hr, a, b, factor_levels=NULL, cred_leve
   
   if(bf_type %in% c('BF0r', 'BFr0', 'LogBFr0')){
     
-    bf0_table <-  binom_bf_equality(x, n=total, a, b)$bf
-    bfr_table <- data.frame(LogBFer=logBFer , 
-                            BFer=exp(logBFer), 
-                            BFre=1/exp(logBFer))
+    # bf0_table <-  binom_bf_equality(x, n=total, a, b)$bf
+    # bfr_table <- data.frame(LogBFer=logBFer , 
+    #                         BFer=exp(logBFer), 
+    #                         BFre=1/exp(logBFer))
+    # 
+    # logBFe0    <- bf0_table$LogBFe0
+    # logBFr0    <-  -logBFer + logBFe0
+    # 
+    # bf_list <- list(bf_type    = bf_type,
+    #                 bf         = data.frame(LogBFr0 = logBFr0,
+    #                                         BF0r    = 1/exp(logBFr0),
+    #                                         BFr0    = exp(logBFr0)),
+    #                 bf0_table  = bf0_table,
+    #                 bfr_table  = bfr_table)
     
-    logBFe0    <- bf0_table$LogBFe0
-    logBFr0    <-  -logBFer + logBFe0
+    logBFe0    <- logml$logmlHe - logml$logmlH0
+    logBFr0    <- logml$logmlHr - logml$logmlH0
+    
+    bf0_table <-  data.frame(LogBFe0=logBFe0 ,
+                             BFe0=exp(logBFe0),
+                             BF0e=1/exp(logBFe0))
+    bfr_table <- data.frame(LogBFer=logBFer ,
+                            BFer=exp(logBFer),
+                            BFre=1/exp(logBFer))
     
     bf_list <- list(bf_type    = bf_type,
                     bf         = data.frame(LogBFr0 = logBFr0,
@@ -218,6 +239,7 @@ binom_bf_informed <- function(x, n=NULL, Hr, a, b, factor_levels=NULL, cred_leve
   
   # Bayes factors
   output <- list(bf_list             = bf_list,
+                 logml               = logml,
                  cred_level          = cred_level,
                  restrictions        = restrictions,
                  bridge_output       = bs_results

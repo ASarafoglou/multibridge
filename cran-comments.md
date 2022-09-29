@@ -22,9 +22,9 @@ N  checking for GNU extensions in Makefiles
    GNU make is a SystemRequirements.
 ```
 
-## Changes to version 1.0.0:
+## Changes to version 1.1.0:
 
-- Bug fixes: multibridge now tests in the functions binom_bf_equality and mult_bf_equality whether the predicted values p is numeric. In addition, the functions transform p from a matrix to a numeric value or vector
+- Bug fixes: The null model now constrains all category proportions to be equal. In previous versions, the null model constrained only the category proportions to be equal that were included in the informed hypothesis, leaving the other category proportions free to vary.
 
-- Added feature: the function binom_bf_equality now allows users to specify a predicted value p on the category proportions
+- Added feature: The output of the S3 method summary now included the log marginal likelihoods of the encompassing model, the null model, and the informed model. 
 
