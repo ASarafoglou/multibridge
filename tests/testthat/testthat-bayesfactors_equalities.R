@@ -96,7 +96,7 @@ test_that("yields equal BF estimates multinomial equality constraints", {
   data("lifestresses")
   a             <- rep(1, nrow(lifestresses))
   x             <- lifestresses$stress.freq
-  expect_warning(output_total <- mult_bf_equality(x, a), "Parameters have been rescaled.")
+  output_total  <- suppressWarnings(mult_bf_equality(x, a))
   
   expect_equal(output_total$bf, structure(list(LogBFe0 = 3.29976435023366, 
                                                BFe0 = 27.1062505863656, BF0e = 0.0368918599351766), 

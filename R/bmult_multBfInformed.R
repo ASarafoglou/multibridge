@@ -3,6 +3,8 @@ NULL
 
 #' @importFrom Rcpp evalCpp
 NULL
+#' @importFrom Rdpack reprompt
+NULL
 
 #' @title Evaluates Informed Hypotheses on Multinomial Parameters
 #' 
