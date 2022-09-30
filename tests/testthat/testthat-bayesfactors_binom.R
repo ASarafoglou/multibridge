@@ -40,9 +40,9 @@ test_that("yields equal BF estimates of 1", {
                                      factor_levels=factor_levels, 
                                      seed=2020, 
                                      bf_type = 'BF0r')
-  expect_equal(output_total$bf_list$bf, structure(list(LogBFr0 = 7.105427357601e-15, 
-                                                       BF0r = 0.999999999999993, BFr0 = 1.00000000000001), class = "data.frame", row.names = c(NA, 
-                                                                                                                                               -1L)))
+  expect_equal(output_total$bf_list$bf, structure(list(LogBFr0 = 0, 
+                                                       BF0r = 1, BFr0 = 1), class = "data.frame", row.names = c(NA, 
+                                                                                                                -1L)))
 })
 
 test_that("yields equal BF estimates for Marsmans example", {
