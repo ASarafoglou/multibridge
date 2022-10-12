@@ -11,7 +11,6 @@ citEntry(
                     person("Marsman", "Maarten")),
   journal  = "Psychological Methods",
   year     = "2021",
-  url      = "https://doi.org/10.1037/met0000411",
   textVersion = paste("Sarafoglou, A., Haaf, J. M., Ly, A., Gronau, Q. F., Wagenmakers, E., & Marsman, M. (2021). Evaluating multinomial order restrictions with bridge sampling. Psychological Methods. https://doi.org/10.1037/met0000411")
 )
 citEntry(
