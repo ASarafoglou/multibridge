@@ -7,7 +7,9 @@
 \renewcommand{\theequation}{C\arabic{equation}}
 \renewcommand{\thesection}{\Alph{section}}
 
-# Transforming an Ordered Probability Vector to the Real Line
+# Appendix
+
+## Transforming an Ordered Probability Vector to the Real Line
 
 The bridge sampling routine in \textbf{multibridge} uses the
 multivariate normal distribution as proposal distribution, which
@@ -125,7 +127,7 @@ equality constraints collapsed in each parameter in
 \texttt{nr\_mult\_equal}. Similarly the number of free parameters that
 share common bounds are encoded under \texttt{nr\_mult\_free}.
 
-## Equality Constrained Parameters
+### Equality Constrained Parameters
 
 In cases where informed hypotheses feature a mix of equality and
 inequality constrained parameters, we compute the Bayes factor
@@ -198,7 +200,7 @@ $\cfrac{1 - 0.05}{5} \times 3 = 0.57$. The upper bound for
 $\theta_5$ is then $\cfrac{(1 - 0.05 - 0.45)}{2} \times 1 = 0.25$.
 
 
-## Corrections for Free Parameters
+### Corrections for Free Parameters
 
 Different adjustments are required for a sequence of inequality
 constrained parameters that share upper and lower bounds. Consider, for
