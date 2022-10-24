@@ -61,9 +61,10 @@ remotes::install_github("ASarafoglou/multibridge")
 
 ### Extra Steps for Mac M1
 
-On https://mac.r-project.org/tools/ follow the instructions for gfortran:
+On <https://mac.r-project.org/tools/> follow the instructions for
+gfortran:
 
-<img width="828" alt="Screenshot 2022-09-14 at 15 34 58" src="https://user-images.githubusercontent.com/20499997/190168992-71ec7643-5a31-42e0-8636-520a01fd774d.png">
+<img src="manuscript/applescreenshot.png" alt="(ref:screenshot)" width="100%" style="display: block; margin: auto;" />
 
 ## Example
 

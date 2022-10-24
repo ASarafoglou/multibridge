@@ -55,6 +55,13 @@ And the development version from [GitHub](https://github.com/) with:
 remotes::install_github("ASarafoglou/multibridge")
 ~~~
 
+### Extra Steps for Mac M1
+
+On [https://mac.r-project.org/tools/](https://mac.r-project.org/tools/) follow the instructions for gfortran:
+
+```{r screenshot, fig.cap='(ref:screenshot)', message=FALSE, fig.align='center', echo = FALSE}
+knitr::include_graphics("manuscript/applescreenshot.png")
+``` 
 
 ## Example
 
