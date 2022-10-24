@@ -10,10 +10,8 @@
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![GitHub last commit
-(devel)](https://img.shields.io/github/last-commit/ASarafoglou/multibridge/devel?label=Last%20commit&logo=github&logoColor=%23FFF)
-![Travis build
-status](https://img.shields.io/travis/ASarafoglou/multibridge?label=Build&logo=travis-ci&logoColor=%23FFF)
-[![codecov](https://codecov.io/gh/ASarafoglou/multibridge/branch/master/graph/badge.svg)](https://codecov.io/gh/ASarafoglou/multibridge)
+(master)](https://img.shields.io/github/last-commit/ASarafoglou/multibridge/master?label=Last%20commit&logo=github&logoColor=%23FFF)
+[![R-CMD-check](https://github.com/ASarafoglou/multibridge/workflows/R-CMD-check/badge.svg)](https://github.com/ASarafoglou/multibridge/actions)
 [![GitHub bug
 issues](https://img.shields.io/github/issues/ASarafoglou/multibridge/bug?label=Bugs&logo=github&logoColor=%23FFF)](https://github.com/ASarafoglou/multibridge/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
 <!-- badges: end -->
