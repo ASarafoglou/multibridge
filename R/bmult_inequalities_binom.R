@@ -46,7 +46,7 @@
 #' # alternative - if you have samples and a restriction list
 #' inequalities  <- generate_restriction_list(Hr=Hr, a=a,b=b,
 #' factor_levels=factor_levels)$inequality_constraints
-#' prior_samples <- binom_tsampling(inequalities, niter = 2e3, 
+#' prior_samples <- binom_tsampling(inequalities, niter = 500, 
 #' prior=TRUE, seed = 2020)
 #' results_prior <- binom_bf_inequality(prior_samples, inequalities, seed=2020)
 #' cbind(exp(results_prior$logml), 1/factorial(4))

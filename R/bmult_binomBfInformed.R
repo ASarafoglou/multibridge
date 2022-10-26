@@ -54,7 +54,7 @@
 #' # informed hypothesis
 #' factor_levels <- c('binom1', 'binom2', 'binom3', 'binom4')
 #' Hr            <- c('binom1', '<',  'binom2', '<', 'binom3', '<', 'binom4')
-#' output_total  <- binom_bf_informed(x, n, Hr, a, b, niter=2e3, factor_levels, seed=2020)
+#' output_total  <- binom_bf_informed(x, n, Hr, a, b, niter=500, factor_levels, seed=2020)
 #' 
 #' @family functions to evaluate informed hypotheses
 #' @export

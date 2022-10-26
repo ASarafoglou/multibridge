@@ -186,7 +186,7 @@ samples.bmult <- function(x){
 #' 
 #' ## Multinomial Case
 #' out_mult  <- mult_bf_informed(x=x, Hr=Hr, a=a, factor_levels=factor_levels,
-#' niter=1e3, seed=2020)
+#' niter=500, seed=2020)
 #' bayes_factor(out_mult)
 #' @export
 bayes_factor <- function (x) {
@@ -775,13 +775,13 @@ print.summary.bmult <- function(x, ...){
 #' Hr <- c('theta1', '<',  'theta2', '&', 'theta3', '=', 
 #' 'theta4', ',', 'theta5', '<', 'theta6')
 #' output_total  <- mult_bf_informed(x, Hr, a, factor_levels, seed=2020, 
-#' niter=1e3, bf_type = "BFer")
+#' niter=500, bf_type = "BFer")
 #' plot(summary(output_total))
 #' 
 #' # data for a big Bayes factor
 #' x <- c(3, 4, 10, 11, 7, 30) * 1000
 #' output_total  <- mult_bf_informed(x, Hr, a, factor_levels, seed=2020, 
-#' niter=1e3, bf_type = "BFre")
+#' niter=500, bf_type = "BFre")
 #' plot(summary(output_total))
 
 plot.summary.bmult <- function(x, main = NULL, xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL, panel.first = NULL, ...) {
