@@ -15,7 +15,7 @@
 
 ## R CMD check results
 
-`0 errors | 0 warnings | 0 notes`
+`0 errors | 0 warnings | 1 notes`
 
 ## Comments
 
@@ -30,34 +30,14 @@ Examples with CPU (user + system) or elapsed time > 5s
 journals 2.618  0.003   5.065
 ```
 
-Ubuntu Linux 20.04.1 LTS, R-release, GCC
-* the doi is a valid link
-```
-* checking CRAN incoming feasibility ... NOTE
-Maintainer: ‘Alexandra Sarafoglou <alexandra.sarafoglou@gmail.com>’
+There is one NOTE that is only found on Windows (Server 2022, R-devel 64-bit): 
 
-Found the following (possibly) invalid URLs:
-  URL: https://doi.org/10.1037/met0000411
-    From: man/binom_bf_equality.Rd
-          man/binom_bf_inequality.Rd
-          man/binom_bf_informed.Rd
-          man/lifestresses.Rd
-          man/mult_bf_equality.Rd
-          man/mult_bf_inequality.Rd
-          man/mult_bf_informed.Rd
-          man/mult_tsampling.Rd
-          man/peas.Rd
-          inst/CITATION
-    Status: 403
-    Message: Forbidden
-```
-
-Windows Server 2008 R2 SP1, R-devel, 32/64 bit
 ```
 * checking for detritus in the temp directory ... NOTE
 Found the following files/directories:
   'lastMiKTeXException'
 ```
+As noted in [R-hub issue #503](https://github.com/r-hub/rhub/issues/503), this could be due to a bug/crash in MiKTeX and can likely be ignored.
 
 ## Changes to version 1.1.0:
 

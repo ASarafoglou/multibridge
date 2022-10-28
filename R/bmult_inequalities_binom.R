@@ -38,7 +38,7 @@
 #' factor_levels <- c('theta1', 'theta2', 'theta3', 'theta4')
 #' Hr            <- c('theta1', '<',  'theta2', '<', 'theta3', '<', 'theta4')
 #' 
-#' results_prior  <- binom_bf_inequality(Hr=Hr, a=a, b=b, 
+#' results_prior  <- binom_bf_inequality(Hr=Hr, a=a, b=b, niter = 100,
 #' factor_levels=factor_levels, prior=TRUE, seed = 2020)
 #' # corresponds to
 #' cbind(exp(results_prior$logml), 1/factorial(4))
@@ -48,7 +48,8 @@
 #' factor_levels=factor_levels)$inequality_constraints
 #' prior_samples <- binom_tsampling(inequalities, niter = 500, 
 #' prior=TRUE, seed = 2020)
-#' results_prior <- binom_bf_inequality(prior_samples, inequalities, seed=2020)
+#' results_prior <- binom_bf_inequality(prior_samples, inequalities, niter = 100,
+#' seed=2020)
 #' cbind(exp(results_prior$logml), 1/factorial(4))
 #' 
 #' @family functions to evaluate informed hypotheses
