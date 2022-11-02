@@ -100,7 +100,7 @@ header-includes:
    - \newcommand{\Julia}[1]{\todo[inline, color=mypink]{#1}}
    - \newcommand{\Frederik}[1]{\todo[inline, color=myWheat]{#1}}
    - \newcommand{\Alex}[1]{\todo[inline, color=myGreen]{#1}}
-   - \newcommand{\rev}[1]{\textcolor{blue}{#1}}
+   - \newcommand{\rev}[1]{\textcolor{black}{#1}}
 ---
 
 ```{r, echo = FALSE, warning=FALSE}
@@ -595,7 +595,7 @@ p_Hr1_x <- bfr1e/(bfr1e + bfr2e + bf0e + 1) # bfee = 1
 Posterior model probabilities are useful for comparing multiple hypotheses; however, they are relative quantities that change depending on which other hypotheses are included in the comparison. Thus, hypotheses that describe the data poorly may have high posterior model probabilities if the other hypotheses in the comparison set provide even worse descriptions of the data. In order to gain insight into whether a hypothesis describes the data adequately, we therefore consider so-called bookend hypotheses along with theory-informed hypotheses. That is, we include a hypothesis that maximally constrains the parameter space (such as a point-null hypothesis \(\mathcal{H}_{0}\)) and the encompassing hypothesis \(\mathcal{H}_{e}\) that does not constrain the parameter space [in this case, that makes no ordinal predictions, @lee2018determining]. A hypothesis is then considered adequate if it outperforms these two bookend models.
 
 In addition to posterior model probabilities, Bayes factors can also be calculated directly between two informed hypotheses. The comparison of any two informed hypotheses with one another follows from the fact that Bayes factors are transitive. For instance, the Bayes factor comparison between two informed hypotheses \(\mathcal{H}_{r1}\) and \(\mathcal{H}_{r2}\) can be obtained by first computing \(\text{BF}_{r1e}\) and \(\text{BF}_{r2e}\), and then dividing out the common hypothesis \(\mathcal{H}_{e}\):
-\[\text{BF}_{r1r2} = \frac{\text{BF}_{r1e}}{\text{BF}_{r2e}}.\] \rev{For this comparison to be feasible, the hypotheses of interest must be comparable, that is, the same prior distribution must be assigned to the category proportions.}
+\[\text{BF}_{r1r2} = \frac{\text{BF}_{r1e}}{\text{BF}_{r2e}}.\] \rev{For this comparison to be feasible, the encompassing hypotheses must be identical, that is, the same prior distribution must be assigned to the category proportions.}
 
 ## Prior Sensitivity
 
