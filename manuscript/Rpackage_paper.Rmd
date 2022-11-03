@@ -242,7 +242,7 @@ Argument & Description \\\midrule
  
 Signs permitted to specify informed hypotheses are the ``$<$''-sign and ``$>$''-sign for inequality constraints, the ``$=$''-sign for equality constraints, the ``$,$''-sign for parameters that vary freely within a constraint, and the ``\&''-sign to connect multiple independent constraints. For instance, the informed hypothesis in the top right panel in Figure \ref{fig:hypotheses}, that is, \texttt{"t1 $>$ t2 $>$ t3 $\&$ t4 , t5 $>$ t6"}, states that \texttt{t1} is bigger than \texttt{t2}, and \rev{that \texttt{t2}, is bigger than \texttt{t3}}. In addition, the hypothesis states that \texttt{t4} and \texttt{t5} are bigger than \texttt{t6}, with no further constraints imposed among \texttt{t4} and \texttt{t5}.
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo = TRUE}
 x <- c(2, 1, 5, 4, 1, 8)
 n <- c(10, 7, 13, 7, 9, 14)
 a <- b <- c(1, 1, 1, 1, 1, 1)
@@ -266,7 +266,7 @@ binom_bf_informed(x=x, n=n, a=a, b=b, Hr='1 > 2 > 3 & 5 = 6')
 
 When testing equality constrained hypotheses, users should be aware that there is a difference between assuming equality of category proportions and adding categories together, that is, the hypothesis $\mathcal{H}_r: \theta_1 = \theta_2 > \theta_3 = \theta_4$ differs from the hypothesis $\mathcal{H}_r: \theta_1 + \theta_2 > \theta_3 + \theta_4$. The first hypothesis concerns four category proportions of which two pairs are expected to be equal; as a result, we assign a $K = 4$ Dirichlet prior to this distribution. The second hypothesis concerns only two categories since we assume that $\theta_1$ and $\theta_2$ belong to one group and $\theta_3$ and $\theta_4$ belong to the other. Consequently, one assigns a $K = 2$ Dirichlet prior to this distribution. Therefore, to test the second hypothesis, the respective counts of the categories should first be combined and the analysis should be performed on the basis of these new data.
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo=TRUE}
 # Merging categories or setting them equal do not yield the same results
 # Hr: t1 = t2 < t3 = t4
 x <- c(20, 7, 5, 9)
@@ -278,6 +278,8 @@ x <- c(20 + 7, 5 + 9)
 a <- c(1, 1)
 summary(mult_bf_informed(x=x, a=a, Hr='1 > 2'))$bf
 ```
+
+\newpage
 
 \begin{table}[H]
 \caption {S3 methods available in $\textbf{multibridge}$.}
@@ -627,7 +629,7 @@ Below we discuss four possible Bayesian adaptations of the Benford test. In a fi
 
 ### Data and Hypothesis
 
-The data we use to illustrate the computation of Bayes factors were originally published by the European statistics agency \enquote{Eurostat} and served as basis for reviewing the adherence to the Stability and Growth Pact of EU member states. @rauch2011fact conducted a Benford test on data related to budget deficit criteria, that is, public deficit, public dept and gross national products. The data used for this example features the proportion of first digits from Greek fiscal data in the years between \(1999\) and \(2010\); a total of \(N= 1{,}497\) numerical data were included in the analysis. We choose this data, since the Greek government deficit and debt statistics states has been repeatedly criticized by the European Commission in this time span [@europeanCommision2004; @europeanCommision2010]. In particular, the commission has accused the Greek statistical authorities to have misreported deficit and debt statistics. For further details on the data set see @rauch2011fact. The observed and expected proportions are displayed in Table \ref{Tab:benford}; the expected proportions versus the posterior parameter estimates under the encompassing hypothesis are displayed in Figure \ref{fig:benford-alt}.
+The data we use to illustrate the computation of Bayes factors were originally published by the European statistics agency \enquote{Eurostat} and served as basis for reviewing the adherence to the Stability and Growth Pact of EU member states. @rauch2011fact conducted a Benford test on data related to budget deficit criteria, that is, public deficit, public debt and gross national products. The data used for this example features the proportion of first digits from Greek fiscal data in the years between \(1999\) and \(2010\); a total of \(N= 1{,}497\) numerical data were included in the analysis. We choose this data, since the Greek government deficit and debt statistics states has been repeatedly criticized by the European Commission in this time span [@europeanCommision2004; @europeanCommision2010]. In particular, the commission has accused the Greek statistical authorities to have misreported deficit and debt statistics. For further details on the data set see @rauch2011fact. The observed and expected proportions are displayed in Table \ref{Tab:benford}; the expected proportions versus the posterior parameter estimates under the encompassing hypothesis are displayed in Figure \ref{fig:benford-alt}.
 
 \begin{table}[H]
 	\centering
