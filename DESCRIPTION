@@ -40,7 +40,7 @@ SystemRequirements:
 		GNU make,
 		mpfr (>= 3.0.0),
 		gmp (>= 6.2.1_1)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.2
 LinkingTo: Rcpp
 VignetteBuilder: knitr
 RdMacros: Rdpack
